@@ -51,7 +51,7 @@ const ClusterLayer: React.FC<{ events: EventData[]; onSelectEvent: (e: EventData
                 zoomToBoundsOnClick: false, // Disable default to handle manually
                 spiderfyOnMaxZoom: true,
                 disableClusteringAtZoom: 18,
-                maxClusterRadius: 30 // Reduced further to prevent grouping distant pins
+                maxClusterRadius: 45 // Reduced further to prevent grouping distant pins
             });
 
             // Add custom click handler for zoom with padding and maxZoom cap
