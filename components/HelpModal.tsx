@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Map, Heart, Filter } from 'lucide-react';
+import { X, Map, Heart, Filter, Settings, ExternalLink } from 'lucide-react';
 
 interface ModalProps {
     isOpen: boolean;
@@ -12,7 +12,7 @@ const HelpModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     return (
         <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4">
             <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity" onClick={onClose}></div>
-            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full relative z-10 animate-in fade-in zoom-in-95 duration-200 p-8">
+            <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full relative z-10 animate-in fade-in zoom-in-95 duration-200 p-8 max-h-[90vh] overflow-y-auto custom-scrollbar">
                 <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
                     <X size={24} />
                 </button>
@@ -21,7 +21,7 @@ const HelpModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 
                 <div className="space-y-6">
                     <div className="flex gap-4">
-                        <div className="bg-blue-50 p-3 rounded-xl h-fit">
+                        <div className="bg-blue-50 p-3 rounded-xl h-fit shrink-0">
                             <Map className="text-blue-600" size={24} />
                         </div>
                         <div>
@@ -31,7 +31,7 @@ const HelpModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className="flex gap-4">
-                        <div className="bg-red-50 p-3 rounded-xl h-fit">
+                        <div className="bg-red-50 p-3 rounded-xl h-fit shrink-0">
                             <Heart className="text-red-500" size={24} />
                         </div>
                         <div>
@@ -41,12 +41,32 @@ const HelpModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     </div>
 
                     <div className="flex gap-4">
-                        <div className="bg-purple-50 p-3 rounded-xl h-fit">
+                        <div className="bg-purple-50 p-3 rounded-xl h-fit shrink-0">
                             <Filter className="text-purple-600" size={24} />
                         </div>
                         <div>
                             <h4 className="font-bold text-gray-800 mb-1">Filtering</h4>
                             <p className="text-sm text-gray-600 leading-relaxed">Use the sidebar to filter by <b>Category</b>, <b>Facilitator</b>, or <b>Date</b> to find exactly what you are looking for.</p>
+                        </div>
+                    </div>
+
+                    <div className="flex gap-4 border-t border-gray-100 pt-6">
+                        <div className="bg-slate-50 p-3 rounded-xl h-fit shrink-0">
+                            <Settings className="text-slate-600" size={24} />
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-gray-800 mb-1">Manage My Events</h4>
+                            <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                                If you are a UWC member, use your credentials to access the events management platform, where you can view, edit, and manage all of your events.
+                            </p>
+                            <a 
+                                href="https://oj471168.github.io/UWCMAP/"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-sm font-bold rounded-lg hover:bg-slate-900 transition-colors shadow-sm"
+                            >
+                                Go to Dashboard <ExternalLink size={14} />
+                            </a>
                         </div>
                     </div>
                 </div>
