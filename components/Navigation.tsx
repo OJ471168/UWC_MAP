@@ -1,7 +1,7 @@
 import React from 'react';
 import { ViewMode, FilterState, EventData } from '../types';
 import { CONTINENT_ICONS, COUNTRY_CODES } from '../constants';
-import { Map, List, Heart, HelpCircle, ArrowLeft } from 'lucide-react';
+import { Map, Calendar, Heart, HelpCircle, ArrowLeft } from 'lucide-react';
 
 interface NavigationProps {
     viewMode: ViewMode;
@@ -83,8 +83,8 @@ const Navigation: React.FC<NavigationProps> = ({
                                 : 'text-gray-600 hover:bg-gray-200'
                         }`}
                     >
-                        <List size={16} />
-                        List
+                        <Calendar size={16} />
+                        Calendar
                     </button>
                 </div>
             </div>
