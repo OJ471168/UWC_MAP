@@ -20,13 +20,33 @@ const HelpModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                 <h2 className="text-2xl font-extrabold text-indigo-900 mb-6">How to use the Map</h2>
                 
                 <div className="space-y-6">
+                    <div className="flex gap-4 border-b border-gray-100 pb-6">
+                        <div className="bg-slate-50 p-3 rounded-xl h-fit shrink-0">
+                            <Settings className="text-slate-600" size={24} />
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-gray-800 mb-1">Manage My Events</h4>
+                            <p className="text-sm text-gray-600 leading-relaxed mb-3">
+                                If you are a UWC member, use your credentials to access the events management platform, where you can view, edit, and manage all of your events.
+                            </p>
+                            <a 
+                                href="https://oj471168.github.io/UWCMAP/"
+                                target="_blank"
+                                rel="noreferrer"
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-sm font-bold rounded-lg hover:bg-slate-900 transition-colors shadow-sm"
+                            >
+                                Go to Dashboard <ExternalLink size={14} />
+                            </a>
+                        </div>
+                    </div>
+
                     <div className="flex gap-4">
                         <div className="bg-blue-50 p-3 rounded-xl h-fit shrink-0">
                             <Map className="text-blue-600" size={24} />
                         </div>
                         <div>
                             <h4 className="font-bold text-gray-800 mb-1">Exploring Events</h4>
-                            <p className="text-sm text-gray-600 leading-relaxed">Switch between <b>Map View</b> to see locations and <b>List View</b> to browse cards. Use the top filters to find specific countries.</p>
+                            <p className="text-sm text-gray-600 leading-relaxed">Switch between <b>Map View</b> to see locations and <b>Calendar View</b> to browse cards. Use the top filters to find specific countries.</p>
                         </div>
                     </div>
 
@@ -47,26 +67,6 @@ const HelpModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         <div>
                             <h4 className="font-bold text-gray-800 mb-1">Filtering</h4>
                             <p className="text-sm text-gray-600 leading-relaxed">Use the sidebar to filter by <b>Category</b>, <b>Facilitator</b>, or <b>Date</b> to find exactly what you are looking for.</p>
-                        </div>
-                    </div>
-
-                    <div className="flex gap-4 border-t border-gray-100 pt-6">
-                        <div className="bg-slate-50 p-3 rounded-xl h-fit shrink-0">
-                            <Settings className="text-slate-600" size={24} />
-                        </div>
-                        <div>
-                            <h4 className="font-bold text-gray-800 mb-1">Manage My Events</h4>
-                            <p className="text-sm text-gray-600 leading-relaxed mb-3">
-                                If you are a UWC member, use your credentials to access the events management platform, where you can view, edit, and manage all of your events.
-                            </p>
-                            <a 
-                                href="https://oj471168.github.io/UWCMAP/"
-                                target="_blank"
-                                rel="noreferrer"
-                                className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-sm font-bold rounded-lg hover:bg-slate-900 transition-colors shadow-sm"
-                            >
-                                Go to Dashboard <ExternalLink size={14} />
-                            </a>
                         </div>
                     </div>
                 </div>
