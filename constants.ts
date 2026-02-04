@@ -5,49 +5,57 @@ export const CATEGORY_GROUPS: CategoryGroup[] = [
         id: 'principles',
         label: 'General 3 Principles Understanding',
         color: '#2A81CB',
-        items: ['Foundations', 'Key Concepts', 'Getting Started']
+        items: ['Foundations', 'Key Concepts', 'Getting Started'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/General%203%20Principles%20Understanding.svg'
     },
     {
         id: 'listening',
         label: 'Deep Listening',
         color: '#2AAD27',
-        items: ['Presence', 'Understanding', 'Connection']
+        items: ['Presence', 'Understanding', 'Connection'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/Deep%20Listening.svg'
     },
     {
         id: 'communities',
         label: 'Working with Communities',
         color: '#CB8427',
-        items: ['Community Support', 'Collective Wellbeing', 'Local Impact']
+        items: ['Community Support', 'Collective Wellbeing', 'Local Impact'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/Working%20with%20Communities.svg'
     },
     {
         id: 'business',
         label: 'Working with Businesses',
         color: '#CB2B3E',
-        items: ['Leadership', 'Workplace Wellbeing', 'Performance']
+        items: ['Leadership', 'Workplace Wellbeing', 'Performance'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/Working%20with%20Businesses.svg'
     },
     {
         id: 'schools',
         label: 'Schools & Education',
         color: '#9C2BCB',
-        items: ['Students', 'Educators', 'Learning Environments']
+        items: ['Students', 'Educators', 'Learning Environments'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/Schools%20&%20Education.svg'
     },
     {
         id: 'corrections',
         label: 'Corrections, Probation & Parole',
         color: '#CAC428',
-        items: ['Rehabilitation', 'Staff Support', 'Reintegration']
+        items: ['Rehabilitation', 'Staff Support', 'Reintegration'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/Corrections,%20Probation%20&%20Parole.svg'
     },
     {
         id: 'health',
         label: 'Physical Health',
         color: '#20B2AA',
-        items: ['General']
+        items: ['General'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/Physical%20Health.svg'
     },
     {
         id: 'books',
         label: 'Book Clubs',
         color: '#FF69B4',
-        items: ['General']
+        items: ['General'],
+        pinUrl: 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/Book%20Clubs.svg'
     }
 ];
 
@@ -79,4 +87,10 @@ export const getCategoryColor = (cat: string) => {
     if (!cat) return '#555';
     const match = CATEGORY_GROUPS.find(g => cat.toLowerCase().includes(g.id) || g.label.toLowerCase().includes(cat.toLowerCase()));
     return match ? match.color : '#555';
+};
+
+export const getCategoryPin = (cat: string) => {
+    if (!cat) return 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/General%203%20Principles%20Understanding.svg';
+    const match = CATEGORY_GROUPS.find(g => cat.toLowerCase().includes(g.id) || g.label.toLowerCase().includes(cat.toLowerCase()));
+    return match ? match.pinUrl : 'https://vlrbeemaxxdqiczdxomd.supabase.co/storage/v1/object/public/pins/General%203%20Principles%20Understanding.svg';
 };
