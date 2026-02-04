@@ -3,7 +3,7 @@ import { MapContainer, TileLayer, Marker, Popup, Circle, useMap, useMapEvents } 
 import L from 'leaflet';
 import 'leaflet.markercluster';
 import { EventData, FilterState } from '../types';
-import { getCategoryColor } from '../constants';
+import { getCategoryPin } from '../constants';
 
 // Fix Leaflet Default Icon
 const DefaultIcon = L.icon({
@@ -13,21 +13,6 @@ const DefaultIcon = L.icon({
     iconAnchor: [12, 41]
 });
 L.Marker.prototype.options.icon = DefaultIcon;
-
-// Custom colored icons using SVG to support any hex color while maintaining pin style
-const createColorIcon = (color: string) => {
-    return L.divIcon({
-        className: 'bg-transparent',
-        html: `
-        <svg viewBox="0 0 30 42" width="30" height="42" xmlns="http://www.w3.org/2000/svg" style="overflow: visible; filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.3));">
-            <path d="M15 0C6.7 0 0 6.7 0 15c0 10 15 27 15 27s15-17 15-27C30 6.7 23.3 0 15 0z" fill="${color}" stroke="white" stroke-width="1.5"/>
-            <circle cx="15" cy="15" r="5" fill="white"/>
-        </svg>`,
-        iconSize: [30, 42],
-        iconAnchor: [15, 42],
-        popupAnchor: [0, -38],
-    });
-};
 
 interface MapProps {
     events: EventData[];
@@ -51,7 +36,7 @@ const ClusterLayer: React.FC<{ events: EventData[]; onSelectEvent: (e: EventData
                 zoomToBoundsOnClick: false, // Disable default to handle manually
                 spiderfyOnMaxZoom: true,
                 disableClusteringAtZoom: 18,
-                maxClusterRadius: 55 // Reduced further to prevent grouping distant pins
+                maxClusterRadius: 50 // Reduced further to prevent grouping distant pins
             });
 
             // Add custom click handler for zoom with padding and maxZoom cap
@@ -74,7 +59,18 @@ const ClusterLayer: React.FC<{ events: EventData[]; onSelectEvent: (e: EventData
         clusterGroup.clearLayers();
 
         const markers = events.map(ev => {
-            const icon = createColorIcon(getCategoryColor(ev.category));
+            const pinUrl = getCategoryPin(ev.category);
+            
+            // Using standard L.icon with custom URL
+            const icon = L.icon({
+                iconUrl: pinUrl,
+                // Increased size by ~20% (from 32x48 to 38x58)
+                iconSize: [38, 58], 
+                iconAnchor: [19, 58], // Bottom center (half width, full height)
+                popupAnchor: [0, -50], // Adjusted popup position
+                className: 'transition-transform hover:scale-110 duration-200' // Smooth hover effect
+            });
+
             const marker = L.marker([ev.lat, ev.lng], { icon });
             
             marker.on('click', () => {
@@ -82,7 +78,7 @@ const ClusterLayer: React.FC<{ events: EventData[]; onSelectEvent: (e: EventData
             });
             
             // Add a simple tooltip for hover
-            marker.bindTooltip(ev.title, { direction: 'top', offset: [0, -40] });
+            marker.bindTooltip(ev.title, { direction: 'top', offset: [0, -55] });
 
             return marker;
         });
