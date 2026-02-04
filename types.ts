@@ -76,4 +76,5 @@ export interface CategoryGroup {
     label: string;
     color: string;
     items: string[];
+    pinUrl: string;
 }
