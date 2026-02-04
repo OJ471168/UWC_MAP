@@ -199,7 +199,7 @@ const EventPanel: React.FC<PanelProps> = ({ event, onClose, isFavorite, toggleFa
 
                         {event.link && (
                             <a href={event.link} target="_blank" rel="noreferrer" className="bg-blue-600 text-white px-5 py-2 rounded-full font-bold text-sm flex items-center gap-2 hover:bg-blue-700 transition-colors shadow-md">
-                                Join <ExternalLink size={14} />
+                                More Details <ExternalLink size={14} />
                             </a>
                         )}
                     </div>
