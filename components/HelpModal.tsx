@@ -35,7 +35,7 @@ const HelpModal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 rel="noreferrer"
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-slate-800 text-white text-sm font-bold rounded-lg hover:bg-slate-900 transition-colors shadow-sm"
                             >
-                                Go to Dashboard <ExternalLink size={14} />
+                                Manage My Events <ExternalLink size={14} />
                             </a>
                         </div>
                     </div>
