@@ -40,6 +40,14 @@ const Navigation: React.FC<NavigationProps> = ({
         setFilters(prev => ({ ...prev, selectedContinent: null, selectedCountry: null }));
     };
 
+    const getCountryCode = (countryName: string): string | undefined => {
+        if (COUNTRY_CODES[countryName]) return COUNTRY_CODES[countryName];
+        // Try case-insensitive matching
+        const lowerName = countryName.toLowerCase();
+        const found = Object.keys(COUNTRY_CODES).find(key => key.toLowerCase() === lowerName);
+        return found ? COUNTRY_CODES[found] : undefined;
+    };
+
     return (
         <div className="bg-white border-b border-gray-200 z-30 flex-shrink-0 transition-all shadow-sm">
             {/* Top Row */}
@@ -141,7 +149,7 @@ const Navigation: React.FC<NavigationProps> = ({
                                     All {filters.selectedContinent.charAt(0).toUpperCase() + filters.selectedContinent.slice(1)}
                                 </button>
                                 {Array.from(hierarchy[filters.selectedContinent] || []).sort().map((country: string) => {
-                                    const code = COUNTRY_CODES[country];
+                                    const code = getCountryCode(country);
                                     return (
                                         <button
                                             key={country}
@@ -152,7 +160,7 @@ const Navigation: React.FC<NavigationProps> = ({
                                                     : 'bg-white border-gray-200 text-gray-600 hover:bg-blue-50'
                                             }`}
                                         >
-                                            {code && <img src={`https://flagcdn.com/w20/${code}.png`} className="w-4 h-3 rounded-sm" alt={country} />}
+                                            {code && <img src={`https://flagcdn.com/w20/${code}.png`} className="w-4 h-3 rounded-sm shadow-sm" alt={country} />}
                                             {country}
                                         </button>
                                     );
