@@ -171,6 +171,9 @@ const App: React.FC = () => {
 
             // 8. Radius
             if (filters.userLocation) {
+                // Ignore events with no coordinates for radius search
+                if (ev.lat === null || ev.lng === null) return false;
+
                 const dist = L.latLng(ev.lat, ev.lng).distanceTo(L.latLng(filters.userLocation.lat, filters.userLocation.lng));
                 if (dist > filters.radius) return false;
             }
