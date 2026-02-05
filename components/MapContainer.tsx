@@ -58,7 +58,10 @@ const ClusterLayer: React.FC<{ events: EventData[]; onSelectEvent: (e: EventData
         const clusterGroup = clusterGroupRef.current;
         clusterGroup.clearLayers();
 
-        const markers = events.map(ev => {
+        // Filter out events that don't have valid coordinates
+        const validEvents = events.filter(ev => ev.lat !== null && ev.lng !== null);
+
+        const markers = validEvents.map(ev => {
             const pinUrl = getCategoryPin(ev.category);
             
             // Using standard L.icon with custom URL
@@ -71,7 +74,8 @@ const ClusterLayer: React.FC<{ events: EventData[]; onSelectEvent: (e: EventData
                 className: 'transition-transform hover:scale-110 duration-200' // Smooth hover effect
             });
 
-            const marker = L.marker([ev.lat, ev.lng], { icon });
+            // We know lat/lng are not null here due to filter
+            const marker = L.marker([ev.lat!, ev.lng!], { icon });
             
             marker.on('click', () => {
                 onSelectEvent(ev);
@@ -109,7 +113,8 @@ const MapController: React.FC<{
     const map = useMap();
 
     useEffect(() => {
-        if (selectedEvent) {
+        // Only fly to event if it has coordinates
+        if (selectedEvent && selectedEvent.lat !== null && selectedEvent.lng !== null) {
             map.invalidateSize(); // Ensure map knows its size changed if panel opened
             map.flyTo([selectedEvent.lat, selectedEvent.lng], 15, { duration: 1.5 });
         }
