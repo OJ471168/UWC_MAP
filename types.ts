@@ -16,8 +16,8 @@ export interface SupabaseEvent {
     title: string;
     start_time: string;
     end_time: string;
-    lat: number;
-    lng: number;
+    lat: number | null;
+    lng: number | null;
     category: string;
     subcategory: string;
     location_type: string;
@@ -38,8 +38,8 @@ export interface EventData {
     title: string;
     start: Date;
     end: Date;
-    lat: number;
-    lng: number;
+    lat: number | null;
+    lng: number | null;
     category: string;
     subcategory: string;
     locationType: string;
