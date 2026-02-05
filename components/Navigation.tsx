@@ -1,7 +1,7 @@
 import React from 'react';
 import { ViewMode, FilterState, EventData } from '../types';
 import { CONTINENT_ICONS, COUNTRY_CODES } from '../constants';
-import { Map, Calendar, Heart, HelpCircle, ArrowLeft } from 'lucide-react';
+import { Map, Calendar, Heart, HelpCircle, ArrowLeft, Settings } from 'lucide-react';
 
 interface NavigationProps {
     viewMode: ViewMode;
@@ -44,14 +44,29 @@ const Navigation: React.FC<NavigationProps> = ({
         <div className="bg-white border-b border-gray-200 z-30 flex-shrink-0 transition-all shadow-sm">
             {/* Top Row */}
             <div className="flex justify-between items-center px-6 py-3">
-                <button 
-                    onClick={onToggleHelp}
-                    className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-600 font-bold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all"
-                >
-                    <HelpCircle size={18} />
-                    Help
-                </button>
+                
+                {/* Left Actions */}
+                <div className="flex items-center gap-3">
+                    <a 
+                        href="https://oj471168.github.io/UWCMAP/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg font-bold text-sm hover:bg-slate-900 transition-all shadow-sm hover:shadow-md"
+                    >
+                        <Settings size={16} />
+                        Manage My Events
+                    </a>
+                    
+                    <button 
+                        onClick={onToggleHelp}
+                        className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-600 font-bold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all"
+                    >
+                        <HelpCircle size={18} />
+                        Help
+                    </button>
+                </div>
 
+                {/* Right Actions */}
                 <div className="bg-gray-100 p-1 rounded-lg flex gap-1 border border-gray-200">
                     <button
                         onClick={() => setFilters(prev => ({ ...prev, showFavoritesOnly: !prev.showFavoritesOnly }))}
