@@ -15,10 +15,11 @@ export const fetchEvents = async (): Promise<EventData[]> => {
             lat, lng, category, subcategory, 
             location_type, format, link, 
             city, country, continent, image_url,
-            organizer, co_facilitators,
+            organizer, co_facilitators, status,
             profiles(full_name, avatar_url, is_blocked)
         `)
         .eq('is_hidden', false)
+        .eq('status', 'live')
         .order('start_time', { ascending: true });
 
     if (error) {
