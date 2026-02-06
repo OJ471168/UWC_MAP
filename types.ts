@@ -31,6 +31,7 @@ export interface SupabaseEvent {
     description?: string;
     co_facilitators: any[]; // Raw JSON from DB
     profiles?: SupabaseProfile;
+    status?: string;
 }
 
 export interface EventData {
