@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 const products = [
   { name: "Classic Suit", price: "$899", color: "bg-neutral-300" },
   { name: "Blazer", price: "$475", color: "bg-neutral-400" },
@@ -6,7 +10,26 @@ const products = [
   { name: "Wool Sweater", price: "$320", color: "bg-amber-900/30" },
 ];
 
+const MIDDLE = 2;
+
 export default function NewArrivals() {
+  const [hovered, setHovered] = useState<number | null>(null);
+
+  function getCardHeight(index: number) {
+    const isMiddle = index === MIDDLE;
+    const isHovered = hovered === index;
+
+    // No card hovered — middle is tall, others are default
+    if (hovered === null) {
+      return isMiddle ? "h-[340px] md:h-[420px]" : "h-[280px] md:h-[340px]";
+    }
+
+    // A card is hovered — hovered card grows, middle shrinks, others stay
+    if (isHovered) return "h-[340px] md:h-[420px]";
+    if (isMiddle) return "h-[280px] md:h-[340px]";
+    return "h-[280px] md:h-[340px]";
+  }
+
   return (
     <section id="arrivals" className="relative overflow-hidden bg-brand-dark py-20 md:py-28">
       {/* Watermark Text */}
@@ -29,10 +52,17 @@ export default function NewArrivals() {
         </div>
 
         {/* Product Grid */}
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
+        <div className="grid grid-cols-2 items-end gap-4 md:grid-cols-5 md:gap-6">
           {products.map((product, i) => (
-            <div key={i} className="group cursor-pointer">
-              <div className={`relative aspect-[3/4] overflow-hidden rounded-sm ${product.color}`}>
+            <div
+              key={i}
+              className="group cursor-pointer"
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+            >
+              <div
+                className={`relative overflow-hidden rounded-sm ${product.color} ${getCardHeight(i)} transition-all duration-500 ease-out`}
+              >
                 {/* Image container — zooms on hover */}
                 <div className="flex h-full items-center justify-center transition-transform duration-500 ease-out group-hover:scale-110">
                   <svg width="80" height="160" viewBox="0 0 80 160" fill="none" className="opacity-30">
@@ -51,7 +81,7 @@ export default function NewArrivals() {
                 </div>
               </div>
 
-              {/* Product info — name slides right, price highlights */}
+              {/* Product info */}
               <div className="mt-3 flex items-center justify-between">
                 <span className="text-xs text-white/60 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/90">
                   {product.name}
