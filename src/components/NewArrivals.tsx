@@ -32,8 +32,9 @@ export default function NewArrivals() {
         <div className="grid grid-cols-2 gap-4 md:grid-cols-5 md:gap-6">
           {products.map((product, i) => (
             <div key={i} className="group cursor-pointer">
-              <div className={`aspect-[3/4] overflow-hidden rounded-sm ${product.color} transition-transform duration-300 group-hover:scale-[1.02]`}>
-                <div className="flex h-full items-center justify-center">
+              <div className={`relative aspect-[3/4] overflow-hidden rounded-sm ${product.color}`}>
+                {/* Image container — zooms on hover */}
+                <div className="flex h-full items-center justify-center transition-transform duration-500 ease-out group-hover:scale-110">
                   <svg width="80" height="160" viewBox="0 0 80 160" fill="none" className="opacity-30">
                     <ellipse cx="40" cy="25" rx="15" ry="18" fill="#555" />
                     <rect x="22" y="43" width="36" height="55" rx="5" fill="#444" />
@@ -41,10 +42,23 @@ export default function NewArrivals() {
                     <rect x="44" y="98" width="18" height="55" rx="4" fill="#333" />
                   </svg>
                 </div>
+
+                {/* Overlay — slides up on hover */}
+                <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 transition-opacity duration-400 group-hover:opacity-100">
+                  <span className="mb-6 rounded border border-white px-5 py-2 text-xs tracking-wider text-white transition-transform duration-400 translate-y-4 group-hover:translate-y-0">
+                    Quick View
+                  </span>
+                </div>
               </div>
+
+              {/* Product info — name slides right, price highlights */}
               <div className="mt-3 flex items-center justify-between">
-                <span className="text-xs text-white/60">{product.name}</span>
-                <span className="text-xs font-medium text-white">{product.price}</span>
+                <span className="text-xs text-white/60 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/90">
+                  {product.name}
+                </span>
+                <span className="text-xs font-medium text-white transition-colors duration-300 group-hover:text-brand-gold">
+                  {product.price}
+                </span>
               </div>
             </div>
           ))}
