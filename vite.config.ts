@@ -16,7 +16,14 @@ export default defineConfig(({ mode }) => {
       },
       resolve: {
         alias: {
-          '@': path.resolve(__dirname, '.'),
+          '@': path.resolve(__dirname, './src'),
+        }
+      },
+      build: {
+        rollupOptions: {
+          input: {
+            map: path.resolve(__dirname, 'map.html'),
+          }
         }
       }
     };

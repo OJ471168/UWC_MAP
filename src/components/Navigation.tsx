@@ -55,14 +55,18 @@ const Navigation: React.FC<NavigationProps> = ({
                 
                 {/* Left Actions */}
                 <div className="flex items-center gap-3">
-                    <a 
-                        href="https://oj471168.github.io/UWCMAP/"
-                        target="_blank"
-                        rel="noreferrer"
+                    <a
+                        href="/"
                         className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg font-bold text-sm hover:bg-slate-900 transition-all shadow-sm hover:shadow-md"
                     >
                         <Settings size={16} />
                         Manage My Events
+                    </a>
+                    <a
+                        href="/resources/"
+                        className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-600 font-bold text-sm hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-all"
+                    >
+                        Resources
                     </a>
                     
                     <button 
