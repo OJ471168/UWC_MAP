@@ -1,7 +1,7 @@
 import React from 'react';
 import { ViewMode, FilterState, EventData } from '../types';
 import { CONTINENT_ICONS, COUNTRY_CODES } from '../constants';
-import { Map, Calendar, Heart, HelpCircle, ArrowLeft, Settings } from 'lucide-react';
+import { Map, Calendar, Heart, HelpCircle, ArrowLeft, Settings, PlusCircle } from 'lucide-react';
 
 interface NavigationProps {
     viewMode: ViewMode;
@@ -55,6 +55,13 @@ const Navigation: React.FC<NavigationProps> = ({
                 
                 {/* Left Actions */}
                 <div className="flex items-center gap-3">
+                    <a
+                        href="/?action=new-event"
+                        className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg font-bold text-sm hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md"
+                    >
+                        <PlusCircle size={16} />
+                        Post a New Event
+                    </a>
                     <a
                         href="/"
                         className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg font-bold text-sm hover:bg-slate-900 transition-all shadow-sm hover:shadow-md"

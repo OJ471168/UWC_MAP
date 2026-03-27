@@ -195,6 +195,9 @@
                 <label>Password</label><input type="password" id="login_password" placeholder="••••••••">
             </div>
             <button class="btn btn-primary" style="width:100%; margin-top:24px; padding:12px;" onclick="handleLogin()">Sign In</button>
+            <p style="margin-top:16px; font-size:0.85rem;">
+                <a href="#" onclick="handleForgotPassword(); return false;" style="color:var(--primary); text-decoration:none; font-weight:500;">Forgot your password?</a>
+            </p>
         </div>
     </div>
 
@@ -596,6 +599,13 @@
                 loadUserEvents();
                 loadUserResources();
                 fetchAllProfiles();
+
+                // Auto-open event creation drawer if coming from "Post a New Event"
+                const params = new URLSearchParams(window.location.search);
+                if (params.get('action') === 'new-event') {
+                    openDrawer();
+                    window.history.replaceState({}, '', '/');
+                }
             } else {
                 document.getElementById('dashboard_view').classList.add('hidden');
                 document.getElementById('login_view').classList.remove('hidden');
@@ -608,6 +618,17 @@
             const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
             if (error) showToast(error.message, "error");
             else checkSession();
+        }
+
+        async function handleForgotPassword() {
+            const email = document.getElementById('login_email').value.trim();
+            if (!email) {
+                showToast('Please enter your email address first.', 'error');
+                return;
+            }
+            const { error } = await supabaseClient.auth.resetPasswordForEmail(email);
+            if (error) showToast(error.message, 'error');
+            else showToast('Password reset link sent! Check your email.', 'success');
         }
 
         async function handleLogout() {
