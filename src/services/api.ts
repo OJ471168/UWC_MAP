@@ -1,11 +1,7 @@
-import { createClient } from '@supabase/supabase-js';
+import { supabase, DEFAULT_AVATAR_URL } from '../lib/supabase';
 import { SupabaseEvent, EventData, Facilitator } from '../types';
 
-const SUPABASE_URL = 'https://vlrbeemaxxdqiczdxomd.supabase.co';
-const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscmJlZW1heHhkcWljemR4b21kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzkxNDYsImV4cCI6MjA4NDE1NTE0Nn0.TVPeCb9pudVV2_OsjSeNU6fGCVOVxSx6mYUfZPg0QB0';
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-const defaultAvatar = "https://ui-avatars.com/api/?background=random&name=";
+const defaultAvatar = DEFAULT_AVATAR_URL;
 
 export const fetchEvents = async (): Promise<EventData[]> => {
     const { data, error } = await supabase
