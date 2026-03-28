@@ -7,7 +7,7 @@ A community event discovery platform for the 3 Principles community. Users explo
 - **Frontend:** React 18 + TypeScript, Vite (port 3000), React Router v7
 - **Mapping:** Leaflet + React-Leaflet + leaflet.markercluster
 - **Backend:** Supabase (PostgreSQL, Auth, Row-Level Security)
-- **Styling:** Tailwind CSS (CDN), Lucide React icons
+- **Styling:** Tailwind CSS (PostCSS build), Lucide React icons
 - **Payments:** Stripe (membership/subscription)
 - **Deployment:** Vercel (SPA fallback: all routes → index.html)
 
@@ -22,6 +22,7 @@ A community event discovery platform for the 3 Principles community. Users explo
 ```
 src/
   main.tsx               — Entry point: AuthProvider + RouterProvider
+  index.css              — Tailwind directives + custom styles
   router.tsx             — Route definitions (Layout → pages)
   types.ts               — TypeScript interfaces (EventData, FilterState, etc.)
   constants.ts           — Category groups, continent data, country codes
@@ -30,6 +31,8 @@ src/
   contexts/
     AuthContext.tsx       — Auth provider + useAuth() hook
   components/
+    auth/
+      AuthGuard.tsx      — Auth-gated route wrapper
     layout/
       Layout.tsx         — App shell: Nav + Outlet
       Nav.tsx            — React navigation bar
@@ -43,18 +46,12 @@ src/
     LandingPage.tsx      — Homepage with hero, FAQ, newsletter
     ThreePrinciplesPage.tsx — Educational content page
     MapPage.tsx          — Event map (extracted from old App.tsx)
+    ResourcesPage.tsx    — Resources library
+    JoinPage.tsx         — Registration + Stripe membership
+    CommunityPage.tsx    — Threaded discussions + member directory
+    DashboardPage.tsx    — Event/resource CRUD + admin panel
   services/
     api.ts               — Event API (uses shared Supabase client)
-
-public/                  — Legacy static pages (being migrated to React)
-  index.html             — Landing page (migrated → LandingPage.tsx)
-  shared-nav.js          — Legacy nav (replaced by Nav.tsx)
-  stripe-config.js       — Stripe publishable key
-  dashboard/             — Event management (Sprint 4)
-  community/             — Posts, membership (Sprint 4)
-  three-principles/      — Content pages (migrated → ThreePrinciplesPage.tsx)
-  join/                  — Registration (Sprint 3)
-  resources/             — Resources library (Sprint 3)
 
 docs/
   architecture.md        — High-level architecture, route map, key decisions

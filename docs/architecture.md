@@ -44,7 +44,7 @@ index.html (single Vite entry)
 | Single Supabase client via module | Avoids 6 separate initializations; consistent auth state |
 | Auth context (not per-page checks) | One `useAuth()` hook replaces copy-pasted `getSession()` calls |
 | `AuthGuard` component | Declarative route protection, reusable for community + dashboard |
-| Keep Tailwind via CDN for now | Migrating to PostCSS/Tailwind CLI is a separate concern |
+| Tailwind via PostCSS (build-time) | Replaced CDN with `@tailwindcss/postcss` in Sprint 5 for proper tree-shaking and build-time processing |
 | Pages directory | Clear separation between route-level components and reusable components |
 
 ## Sprints
@@ -55,7 +55,7 @@ index.html (single Vite entry)
 | [Sprint 2 — Static Pages](sprints/sprint-2-static-pages.md) | Landing page, Three Principles page | Complete |
 | [Sprint 3 — Interactive Pages](sprints/sprint-3-interactive-pages.md) | Resources, Join/auth flow | Complete |
 | [Sprint 4 — Auth-Gated Pages](sprints/sprint-4-auth-gated-pages.md) | Community, Dashboard, AuthGuard | Complete |
-| [Sprint 5 — Cleanup](sprints/sprint-5-cleanup.md) | Remove legacy HTML, install Tailwind properly | Planned |
+| [Sprint 5 — Cleanup](sprints/sprint-5-cleanup.md) | Remove legacy HTML, install Tailwind properly | Complete |
 
 ## Module Specs
 
