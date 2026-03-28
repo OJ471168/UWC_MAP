@@ -6,6 +6,9 @@ import LandingPage from './pages/LandingPage';
 import ThreePrinciplesPage from './pages/ThreePrinciplesPage';
 import { ResourcesPage } from './pages/ResourcesPage';
 import { JoinPage } from './pages/JoinPage';
+import { CommunityPage } from './pages/CommunityPage';
+import { DashboardPage } from './pages/DashboardPage';
+import { AuthGuard } from './components/auth/AuthGuard';
 
 export const router = createBrowserRouter([
   {
@@ -17,8 +20,8 @@ export const router = createBrowserRouter([
       { path: 'three-principles', element: <ThreePrinciplesPage /> },
       { path: 'resources', element: <ResourcesPage /> },
       { path: 'join', element: <JoinPage /> },
-
-      // Phase 4: Auth-gated pages (CommunityPage, DashboardPage)
+      { path: 'community', element: <AuthGuard><CommunityPage /></AuthGuard> },
+      { path: 'dashboard', element: <AuthGuard><DashboardPage /></AuthGuard> },
     ],
   },
 ]);
