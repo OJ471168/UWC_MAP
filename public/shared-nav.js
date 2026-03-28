@@ -77,6 +77,7 @@
           <li><a href="/three-principles/"${isActive('/three-principles') ? ' class="active"' : ''}>The Three Principles</a></li>
           <li><a href="/resources/"${isActive('/resources') ? ' class="active"' : ''}>Resources</a></li>
           <li><a href="/map"${isActive('/map') ? ' class="active"' : ''}>Event Map</a></li>
+          <li><a href="/community/"${isActive('/community') ? ' class="active"' : ''}>Community</a></li>
         </ul>
         <div class="sn-right" id="sn-auth-area">
           ${session
@@ -84,7 +85,7 @@
                 <img class="sn-avatar" src="${session.avatarUrl}" alt="">
                 <span class="sn-user-name">${session.name}</span>
               </a>`
-            : `<a href="/dashboard" class="sn-login-btn">Login</a>`
+            : `<a href="/join" class="sn-login-btn">Join</a>`
           }
         </div>
       </div>

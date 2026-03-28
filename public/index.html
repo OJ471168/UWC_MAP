@@ -184,10 +184,49 @@
     <a href="/dashboard?action=new-event" class="hero-btn hero-btn-primary">Post a New Event</a>
   </section>
 
+  <section class="cta" style="border-top: 1px solid var(--border-color);">
+    <h2>Stay Connected</h2>
+    <p>Subscribe to our newsletter for updates on events, new resources, and community news.</p>
+    <form id="newsletter-form" onsubmit="handleNewsletter(event)" style="max-width: 440px; margin: 0 auto; display: flex; gap: 10px;">
+      <input type="email" id="newsletter-email" placeholder="your@email.com" required
+        style="flex:1; padding:14px 16px; border:1px solid var(--border-color); border-radius:12px; font-size:1rem; font-family:inherit;">
+      <button type="submit" class="hero-btn hero-btn-primary" style="white-space:nowrap; padding:14px 28px;">Subscribe</button>
+    </form>
+    <p id="newsletter-msg" style="margin-top:12px; font-size:0.9rem; display:none;"></p>
+  </section>
+
   <footer class="footer">
     <p>&copy; 2026 UPWC — Understanding the Three Principles Worldwide Community</p>
   </footer>
 
   <script src="/shared-nav.js"></script>
+  <script>
+    const SUPABASE_URL = 'https://vlrbeemaxxdqiczdxomd.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscmJlZW1heHhkcWljemR4b21kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzkxNDYsImV4cCI6MjA4NDE1NTE0Nn0.TVPeCb9pudVV2_OsjSeNU6fGCVOVxSx6mYUfZPg0QB0';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    async function handleNewsletter(e) {
+      e.preventDefault();
+      const email = document.getElementById('newsletter-email').value.trim();
+      const msg = document.getElementById('newsletter-msg');
+
+      const { error } = await supabaseClient.from('newsletter_subscribers').insert({ email });
+
+      if (error) {
+        if (error.code === '23505') {
+          msg.textContent = "You're already subscribed!";
+          msg.style.color = '#059669';
+        } else {
+          msg.textContent = 'Something went wrong. Please try again.';
+          msg.style.color = '#ef4444';
+        }
+      } else {
+        msg.textContent = 'Thanks for subscribing!';
+        msg.style.color = '#059669';
+        document.getElementById('newsletter-email').value = '';
+      }
+      msg.style.display = 'block';
+    }
+  </script>
 </body>
 </html>

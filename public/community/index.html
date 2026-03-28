@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community | UPWC</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5c8ab9;
+      --primary-hover: #4a7aa9;
+      --btn-color: #9cbce2;
+      --btn-hover: #8baad1;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-main); background-color: var(--bg-color);
+      margin: 0; padding: 0; line-height: 1.5;
+    }
+
+    .page-container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+
+    /* Tabs */
+    .tabs {
+      display: flex; gap: 4px; border-bottom: 1px solid var(--border-color);
+      margin-bottom: 30px;
+    }
+    .tab {
+      padding: 10px 20px; font-size: 0.9rem; font-weight: 600;
+      color: var(--text-muted); cursor: pointer; border: none; background: none;
+      border-bottom: 2px solid transparent; transition: all 0.2s;
+    }
+    .tab:hover { color: var(--text-main); }
+    .tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+
+    /* Discussion Feed */
+    .feed-section { max-width: 700px; }
+
+    .compose-box {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 20px; margin-bottom: 24px;
+    }
+    .compose-box textarea {
+      width: 100%; border: 1px solid var(--border-color); border-radius: 8px;
+      padding: 12px; font-family: inherit; font-size: 0.9rem; resize: vertical;
+      min-height: 80px; box-sizing: border-box;
+    }
+    .compose-box textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(92,138,185,0.15); }
+    .compose-actions { display: flex; justify-content: flex-end; margin-top: 12px; }
+    .post-btn {
+      padding: 8px 20px; background: var(--btn-color); color: #fff;
+      border: none; border-radius: 8px; font-weight: 600; font-size: 0.85rem;
+      cursor: pointer; transition: 0.2s;
+    }
+    .post-btn:hover { background: var(--btn-hover); }
+    .post-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .post-card {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 20px; margin-bottom: 16px;
+    }
+    .post-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 12px;
+    }
+    .post-avatar {
+      width: 40px; height: 40px; border-radius: 50%; object-fit: cover;
+      background: #e5e7eb; border: 1px solid var(--border-color);
+    }
+    .post-author { font-weight: 600; font-size: 0.9rem; }
+    .post-time { font-size: 0.8rem; color: var(--text-muted); }
+    .post-content {
+      font-size: 0.95rem; color: var(--text-main); line-height: 1.7;
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .post-actions {
+      display: flex; gap: 16px; margin-top: 12px; padding-top: 12px;
+      border-top: 1px solid #f1f5f9;
+    }
+    .post-action-btn {
+      background: none; border: none; color: var(--text-muted); font-size: 0.8rem;
+      font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 4px;
+      transition: 0.2s;
+    }
+    .post-action-btn:hover { color: var(--primary); }
+
+    /* Replies */
+    .replies { margin-left: 52px; margin-top: 12px; }
+    .reply-card {
+      background: #f8fafc; border: 1px solid #f1f5f9; border-radius: 10px;
+      padding: 14px; margin-bottom: 8px;
+    }
+    .reply-compose {
+      margin-left: 52px; margin-top: 8px; display: flex; gap: 8px;
+    }
+    .reply-compose input {
+      flex: 1; padding: 8px 12px; border: 1px solid var(--border-color);
+      border-radius: 8px; font-size: 0.85rem; font-family: inherit;
+    }
+    .reply-compose input:focus { outline: none; border-color: var(--primary); }
+    .reply-btn {
+      padding: 8px 14px; background: var(--primary); color: #fff;
+      border: none; border-radius: 8px; font-weight: 600; font-size: 0.8rem;
+      cursor: pointer;
+    }
+
+    /* Member Directory */
+    .directory-section { display: none; }
+    .directory-section.active { display: block; }
+    .feed-section.active { display: block; }
+    .feed-section { display: none; }
+
+    .members-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .member-card {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 12px; padding: 24px; display: flex; align-items: center;
+      gap: 16px; transition: 0.2s;
+    }
+    .member-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
+    .member-avatar {
+      width: 56px; height: 56px; border-radius: 50%; object-fit: cover;
+      background: #e5e7eb; border: 2px solid var(--border-color); flex-shrink: 0;
+    }
+    .member-info h4 { margin: 0 0 4px; font-size: 1rem; font-weight: 600; }
+    .member-info p { margin: 0; font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+    .member-badge {
+      display: inline-block; padding: 2px 8px; background: #e2f0fc; color: var(--primary);
+      border-radius: 999px; font-size: 0.7rem; font-weight: 700; margin-top: 6px;
+    }
+
+    /* Gate */
+    .gate-view {
+      text-align: center; padding: 100px 20px; display: none;
+    }
+    .gate-view.visible { display: block; }
+    .gate-view h2 { font-size: 1.8rem; font-weight: 800; margin: 0 0 12px; }
+    .gate-view p { color: var(--text-muted); font-size: 1.05rem; margin: 0 0 24px; }
+    .gate-btn {
+      display: inline-block; padding: 14px 32px; background: var(--btn-color);
+      color: #fff; border-radius: 999px; font-weight: 700; font-size: 1rem;
+      text-decoration: none; transition: 0.2s;
+    }
+    .gate-btn:hover { background: var(--btn-hover); }
+
+    .loading { text-align: center; padding: 60px; color: var(--text-muted); }
+
+    .empty-state {
+      text-align: center; padding: 60px 20px; color: var(--text-muted);
+    }
+    .empty-state h3 { margin: 0 0 8px; color: var(--text-main); }
+  </style>
+</head>
+<body>
+
+  <div id="gate-view" class="gate-view">
+    <h2>Community Members Only</h2>
+    <p>Join the UPWC community to access discussions and connect with practitioners worldwide.</p>
+    <a href="/join" class="gate-btn">Join Now — $40/year</a>
+  </div>
+
+  <div id="main-view" style="display:none;">
+    <div class="page-container">
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('feed')">Discussions</button>
+        <button class="tab" onclick="switchTab('directory')">Member Directory</button>
+      </div>
+
+      <div id="feed-tab" class="feed-section active">
+        <div class="compose-box">
+          <textarea id="compose-input" placeholder="Share something with the community..."></textarea>
+          <div class="compose-actions">
+            <button class="post-btn" onclick="submitPost()">Post</button>
+          </div>
+        </div>
+        <div id="posts-container">
+          <div class="loading">Loading discussions...</div>
+        </div>
+      </div>
+
+      <div id="directory-tab" class="directory-section">
+        <div id="members-container" class="members-grid">
+          <div class="loading">Loading members...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/shared-nav.js"></script>
+  <script>
+    const SUPABASE_URL = 'https://vlrbeemaxxdqiczdxomd.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscmJlZW1heHhkcWljemR4b21kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzkxNDYsImV4cCI6MjA4NDE1NTE0Nn0.TVPeCb9pudVV2_OsjSeNU6fGCVOVxSx6mYUfZPg0QB0';
+    const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    let currentUser = null;
+    let profiles = {};
+
+    // === INIT ===
+    (async function init() {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) {
+        document.getElementById('gate-view').classList.add('visible');
+        return;
+      }
+
+      currentUser = session.user;
+      const { data: profile } = await supabaseClient.from('profiles').select('membership_status, role').eq('id', currentUser.id).single();
+
+      if (!profile || (profile.membership_status !== 'active' && profile.role !== 'admin')) {
+        document.getElementById('gate-view').classList.add('visible');
+        return;
+      }
+
+      document.getElementById('main-view').style.display = 'block';
+      await loadProfiles();
+      loadPosts();
+    })();
+
+    // === TABS ===
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('feed-tab').classList.remove('active');
+      document.getElementById('directory-tab').classList.remove('active');
+
+      if (tab === 'feed') {
+        document.getElementById('feed-tab').classList.add('active');
+        document.querySelectorAll('.tab')[0].classList.add('active');
+      } else {
+        document.getElementById('directory-tab').classList.add('active');
+        document.querySelectorAll('.tab')[1].classList.add('active');
+        loadMembers();
+      }
+    }
+
+    // === PROFILES CACHE ===
+    async function loadProfiles() {
+      const { data } = await supabaseClient.from('profiles').select('id, full_name, avatar_url, bio, membership_status, role');
+      if (data) {
+        data.forEach(p => { profiles[p.id] = p; });
+      }
+    }
+
+    function getProfile(userId) {
+      const p = profiles[userId];
+      if (!p) return { name: 'Unknown', avatar: 'https://ui-avatars.com/api/?name=U&background=random', bio: '' };
+      return {
+        name: p.full_name || 'Anonymous',
+        avatar: p.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(p.full_name || 'U')}&background=random`,
+        bio: p.bio || ''
+      };
+    }
+
+    // === POSTS ===
+    async function loadPosts() {
+      const container = document.getElementById('posts-container');
+      const { data: posts, error } = await supabaseClient
+        .from('posts')
+        .select('*')
+        .is('parent_id', null)
+        .order('created_at', { ascending: false })
+        .limit(50);
+
+      if (error) {
+        container.innerHTML = '<div class="empty-state"><h3>Could not load posts</h3><p>' + error.message + '</p></div>';
+        return;
+      }
+
+      if (!posts || posts.length === 0) {
+        container.innerHTML = '<div class="empty-state"><h3>No discussions yet</h3><p>Be the first to start a conversation!</p></div>';
+        return;
+      }
+
+      // Load all replies
+      const postIds = posts.map(p => p.id);
+      const { data: replies } = await supabaseClient
+        .from('posts')
+        .select('*')
+        .in('parent_id', postIds)
+        .order('created_at', { ascending: true });
+
+      const repliesByParent = {};
+      (replies || []).forEach(r => {
+        if (!repliesByParent[r.parent_id]) repliesByParent[r.parent_id] = [];
+        repliesByParent[r.parent_id].push(r);
+      });
+
+      container.innerHTML = posts.map(post => renderPost(post, repliesByParent[post.id] || [])).join('');
+    }
+
+    function renderPost(post, replies) {
+      const p = getProfile(post.author_id);
+      const time = timeAgo(post.created_at);
+      const isOwn = currentUser && post.author_id === currentUser.id;
+
+      let repliesHtml = '';
+      if (replies.length > 0) {
+        repliesHtml = '<div class="replies">' + replies.map(r => {
+          const rp = getProfile(r.author_id);
+          return `<div class="reply-card">
+            <div class="post-header">
+              <img class="post-avatar" src="${rp.avatar}" alt="" style="width:30px;height:30px;">
+              <div><span class="post-author" style="font-size:0.85rem;">${escapeHtml(rp.name)}</span>
+              <span class="post-time" style="margin-left:8px;">${timeAgo(r.created_at)}</span></div>
+            </div>
+            <div class="post-content" style="font-size:0.9rem;">${escapeHtml(r.content)}</div>
+          </div>`;
+        }).join('') + '</div>';
+      }
+
+      return `<div class="post-card" id="post-${post.id}">
+        <div class="post-header">
+          <img class="post-avatar" src="${p.avatar}" alt="">
+          <div>
+            <div class="post-author">${escapeHtml(p.name)}</div>
+            <div class="post-time">${time}</div>
+          </div>
+        </div>
+        <div class="post-content">${escapeHtml(post.content)}</div>
+        <div class="post-actions">
+          <button class="post-action-btn" onclick="toggleReply(${post.id})">&#x1f4ac; Reply</button>
+          ${isOwn ? `<button class="post-action-btn" onclick="deletePost(${post.id})" style="color:#ef4444;">Delete</button>` : ''}
+        </div>
+        ${repliesHtml}
+        <div class="reply-compose" id="reply-${post.id}" style="display:none;">
+          <input type="text" id="reply-input-${post.id}" placeholder="Write a reply..." onkeydown="if(event.key==='Enter')submitReply(${post.id})">
+          <button class="reply-btn" onclick="submitReply(${post.id})">Reply</button>
+        </div>
+      </div>`;
+    }
+
+    function toggleReply(postId) {
+      const el = document.getElementById('reply-' + postId);
+      el.style.display = el.style.display === 'none' ? 'flex' : 'none';
+      if (el.style.display === 'flex') {
+        document.getElementById('reply-input-' + postId).focus();
+      }
+    }
+
+    async function submitPost() {
+      const input = document.getElementById('compose-input');
+      const content = input.value.trim();
+      if (!content) return;
+
+      const btn = document.querySelector('.post-btn');
+      btn.disabled = true;
+
+      const { error } = await supabaseClient.from('posts').insert({
+        author_id: currentUser.id,
+        content: content
+      });
+
+      if (error) {
+        alert('Failed to post: ' + error.message);
+        btn.disabled = false;
+        return;
+      }
+
+      input.value = '';
+      btn.disabled = false;
+      loadPosts();
+    }
+
+    async function submitReply(parentId) {
+      const input = document.getElementById('reply-input-' + parentId);
+      const content = input.value.trim();
+      if (!content) return;
+
+      const { error } = await supabaseClient.from('posts').insert({
+        author_id: currentUser.id,
+        content: content,
+        parent_id: parentId
+      });
+
+      if (error) {
+        alert('Failed to reply: ' + error.message);
+        return;
+      }
+
+      input.value = '';
+      loadPosts();
+    }
+
+    async function deletePost(postId) {
+      if (!confirm('Delete this post?')) return;
+      await supabaseClient.from('posts').delete().eq('id', postId);
+      loadPosts();
+    }
+
+    // === MEMBER DIRECTORY ===
+    async function loadMembers() {
+      const container = document.getElementById('members-container');
+      const { data: members } = await supabaseClient
+        .from('profiles')
+        .select('id, full_name, avatar_url, bio, membership_status, role')
+        .or('membership_status.eq.active,role.eq.admin')
+        .order('full_name');
+
+      if (!members || members.length === 0) {
+        container.innerHTML = '<div class="empty-state"><h3>No members yet</h3></div>';
+        return;
+      }
+
+      container.innerHTML = members.map(m => {
+        const name = m.full_name || 'Anonymous';
+        const avatar = m.avatar_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=random`;
+        const bio = m.bio || 'Community member';
+        const badge = m.role === 'admin' ? '<span class="member-badge">Admin</span>' : '';
+
+        return `<div class="member-card">
+          <img class="member-avatar" src="${avatar}" alt="">
+          <div class="member-info">
+            <h4>${escapeHtml(name)}</h4>
+            <p>${escapeHtml(bio)}</p>
+            ${badge}
+          </div>
+        </div>`;
+      }).join('');
+    }
+
+    // === UTILS ===
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+
+    function timeAgo(dateStr) {
+      const now = new Date();
+      const date = new Date(dateStr);
+      const seconds = Math.floor((now - date) / 1000);
+
+      if (seconds < 60) return 'just now';
+      if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+      if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+      if (seconds < 604800) return Math.floor(seconds / 86400) + 'd ago';
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+  </script>
+</body>
+</html>

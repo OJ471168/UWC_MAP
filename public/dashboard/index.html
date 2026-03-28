@@ -591,8 +591,15 @@
                 if (profile && profile.is_blocked) return await supabaseClient.auth.signOut() && location.reload();
                 
                 userProfile = profile;
+
+                // Membership gate — redirect non-members to join page
+                if (!profile || (profile.membership_status !== 'active' && profile.role !== 'admin')) {
+                    window.location.href = '/join';
+                    return;
+                }
+
                 updateNavUI();
-                
+
                 document.getElementById('login_view').classList.add('hidden');
                 document.getElementById('dashboard_view').classList.remove('hidden');
                 loadUserEvents();
