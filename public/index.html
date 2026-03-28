@@ -17,186 +17,519 @@
       --text-main: #0f172a;
       --text-muted: #475569;
       --border-color: #e2e8f0;
+      --green: #2d6a4f;
+      --green-light: #d8f3dc;
     }
     body {
       font-family: 'Inter', system-ui, -apple-system, sans-serif;
-      color: var(--text-main);
-      background-color: var(--bg-color);
-      margin: 0; padding: 0; line-height: 1.5;
+      color: var(--text-main); background-color: var(--bg-color);
+      margin: 0; padding: 0; line-height: 1.6;
     }
+    img { max-width: 100%; }
 
-    /* Hero */
+    /* ===== HERO ===== */
     .hero {
-      background: linear-gradient(135deg, #f4f8fc 0%, #ffffff 100%);
-      border-bottom: 1px solid var(--border-color);
-      padding: 100px 20px; position: relative; overflow: hidden;
+      position: relative; min-height: 580px; display: flex;
+      align-items: center; justify-content: center; text-align: center;
+      overflow: hidden; padding: 80px 20px;
     }
-    .hero-container {
-      max-width: 1200px; margin: 0 auto; display: flex;
-      align-items: center; gap: 60px; position: relative; z-index: 2;
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: url('https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
     }
-    .hero-content { flex: 1.2; }
+    .hero-bg::after {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(15,23,42,0.65) 0%, rgba(15,23,42,0.75) 100%);
+    }
+    .hero-content {
+      position: relative; z-index: 2; max-width: 800px;
+    }
     .hero-badge {
-      display: inline-block; padding: 6px 16px; background-color: #e2f0fc;
-      color: var(--primary); border-radius: 999px; font-size: 0.85rem;
-      font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px;
+      display: inline-block; padding: 6px 18px; background: rgba(255,255,255,0.15);
+      backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.2);
+      color: #fff; border-radius: 999px; font-size: 0.8rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 24px;
     }
-    .hero-content h1 {
-      margin: 0 0 20px 0; font-size: 3.5rem; font-weight: 800;
-      letter-spacing: -0.03em; color: #0f172a; line-height: 1.1;
+    .hero h1 {
+      color: #fff; font-size: 3.2rem; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.15; margin: 0 0 12px;
     }
-    .hero-content p {
-      color: var(--text-muted); font-size: 1.15rem; margin: 0 0 30px 0;
-      line-height: 1.7; max-width: 95%;
+    .hero h1 span { color: var(--btn-color); }
+    .hero-sub {
+      color: rgba(255,255,255,0.85); font-size: 1.2rem;
+      margin: 0 0 36px; line-height: 1.7; max-width: 650px;
+      margin-left: auto; margin-right: auto;
     }
-    .hero-actions { display: flex; gap: 16px; flex-wrap: wrap; }
-    .hero-btn {
+    .hero-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn {
       display: inline-flex; align-items: center; gap: 8px;
       padding: 14px 32px; border-radius: 999px; font-weight: 700;
       font-size: 1rem; text-decoration: none; transition: all 0.2s ease;
-      white-space: nowrap;
+      white-space: nowrap; border: none; cursor: pointer;
     }
-    .hero-btn-primary {
-      background-color: var(--btn-color); color: #fff;
-      box-shadow: 0 2px 8px rgba(156, 188, 226, 0.4);
+    .btn-primary {
+      background: var(--btn-color); color: #fff;
+      box-shadow: 0 4px 14px rgba(156,188,226,0.4);
     }
-    .hero-btn-primary:hover { background-color: var(--btn-hover); transform: translateY(-1px); }
-    .hero-btn-secondary {
-      background-color: #fff; color: var(--text-main);
-      border: 1px solid var(--border-color); box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    .btn-primary:hover { background: var(--btn-hover); transform: translateY(-2px); box-shadow: 0 6px 20px rgba(156,188,226,0.5); }
+    .btn-white {
+      background: #fff; color: var(--text-main);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
-    .hero-btn-secondary:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
-    .hero-image {
-      flex: 0.8; border-radius: 20px; overflow: hidden;
-      box-shadow: 0 20px 40px -10px rgba(0,0,0,0.15); height: 420px;
+    .btn-white:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+    .btn-outline {
+      background: transparent; color: var(--primary); border: 2px solid var(--primary);
     }
-    .hero-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .hero-image:hover img { transform: scale(1.03); }
+    .btn-outline:hover { background: var(--primary); color: #fff; }
+    .btn-sm { padding: 10px 22px; font-size: 0.9rem; }
 
-    /* Features */
-    .features {
-      max-width: 1200px; margin: 0 auto; padding: 80px 20px;
+    /* ===== MISSION ===== */
+    .mission {
+      text-align: center; padding: 70px 20px;
+      background: #fff; border-bottom: 1px solid var(--border-color);
     }
-    .features h2 {
-      text-align: center; font-size: 2rem; font-weight: 800;
-      letter-spacing: -0.02em; margin: 0 0 12px 0;
+    .mission-inner { max-width: 800px; margin: 0 auto; }
+    .mission h2 {
+      font-size: 1.9rem; font-weight: 700; line-height: 1.4;
+      letter-spacing: -0.01em; margin: 0 0 20px;
     }
-    .features .subtitle {
-      text-align: center; color: var(--text-muted); font-size: 1.05rem;
-      margin: 0 0 50px 0;
+    .mission p {
+      color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;
+      margin: 0 0 30px;
     }
-    .features-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px;
+    .mission-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+
+    /* ===== CHANGES LIVES ===== */
+    .changes {
+      padding: 70px 20px; max-width: 1000px; margin: 0 auto;
     }
-    .feature-card {
-      background: var(--card-bg); border: 1px solid var(--border-color);
-      border-radius: 16px; padding: 36px; transition: all 0.3s ease;
-      text-decoration: none; color: inherit;
+    .changes h2 {
+      text-align: center; font-size: 1.8rem; font-weight: 800;
+      margin: 0 0 40px; letter-spacing: -0.02em;
     }
-    .feature-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.08); }
-    .feature-icon {
-      width: 56px; height: 56px; border-radius: 14px;
+    .changes-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px;
+    }
+    .change-item {
+      display: flex; align-items: flex-start; gap: 14px;
+      padding: 20px; background: #fff; border: 1px solid var(--border-color);
+      border-radius: 12px;
+    }
+    .change-icon {
+      width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem; margin-bottom: 20px;
+      font-size: 1.1rem; background: var(--green-light); color: var(--green);
     }
-    .feature-card h3 { font-size: 1.2rem; font-weight: 700; margin: 0 0 10px 0; }
-    .feature-card p { color: var(--text-muted); font-size: 0.95rem; margin: 0; line-height: 1.6; }
-    .feature-link {
-      display: inline-flex; align-items: center; gap: 6px;
-      color: var(--primary); font-weight: 600; font-size: 0.9rem;
-      margin-top: 16px; text-decoration: none; transition: gap 0.2s;
-    }
-    .feature-link:hover { gap: 10px; }
+    .change-item p { margin: 0; font-size: 0.95rem; color: var(--text-muted); line-height: 1.5; }
+    .change-item strong { color: var(--text-main); }
 
-    /* CTA */
-    .cta {
-      background: linear-gradient(135deg, #eef4fa 0%, #f8fafc 100%);
+    /* ===== THREE PRINCIPLES ===== */
+    .principles {
+      padding: 70px 20px; background: #fff;
       border-top: 1px solid var(--border-color);
-      padding: 80px 20px; text-align: center;
+      border-bottom: 1px solid var(--border-color);
     }
-    .cta h2 { font-size: 2rem; font-weight: 800; margin: 0 0 12px 0; }
-    .cta p { color: var(--text-muted); font-size: 1.05rem; margin: 0 0 30px 0; }
+    .principles-inner { max-width: 1100px; margin: 0 auto; }
+    .principles h2 {
+      text-align: center; font-size: 1.8rem; font-weight: 800;
+      margin: 0 0 12px; letter-spacing: -0.02em;
+    }
+    .principles .subtitle {
+      text-align: center; color: var(--text-muted); font-size: 1rem;
+      margin: 0 0 45px; max-width: 600px; margin-left: auto; margin-right: auto;
+    }
+    .principles-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px;
+    }
+    .principle-card {
+      background: var(--bg-color); border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 32px; text-align: center;
+      transition: all 0.3s;
+    }
+    .principle-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.07); }
+    .principle-emoji { font-size: 2.5rem; margin-bottom: 16px; }
+    .principle-card h3 {
+      font-size: 1.3rem; font-weight: 700; margin: 0 0 10px;
+      color: var(--text-main);
+    }
+    .principle-card p {
+      font-size: 0.92rem; color: var(--text-muted); margin: 0;
+      line-height: 1.65;
+    }
+    .principles-link {
+      text-align: center; margin-top: 36px;
+    }
 
-    /* Footer */
+    /* ===== APPLICATION ===== */
+    .application {
+      padding: 70px 20px; text-align: center;
+    }
+    .application-inner { max-width: 900px; margin: 0 auto; }
+    .application h2 {
+      font-size: 1.8rem; font-weight: 800; margin: 0 0 12px;
+    }
+    .application .subtitle {
+      color: var(--text-muted); font-size: 1rem; margin: 0 0 40px;
+    }
+    .app-areas {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 16px;
+      margin-bottom: 30px;
+    }
+    .app-tag {
+      padding: 10px 22px; background: #fff; border: 1px solid var(--border-color);
+      border-radius: 999px; font-size: 0.9rem; font-weight: 600;
+      color: var(--text-muted); transition: 0.2s;
+    }
+    .app-tag:hover { border-color: var(--primary); color: var(--primary); }
+    .app-highlight {
+      display: inline-block; padding: 14px 28px; background: var(--green-light);
+      border: 2px solid var(--green); border-radius: 999px;
+      font-size: 1rem; font-weight: 700; color: var(--green);
+    }
+
+    /* ===== FOR WHO ===== */
+    .for-who {
+      padding: 70px 20px; background: #fff;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .for-who-inner { max-width: 1100px; margin: 0 auto; }
+    .for-who h2 {
+      text-align: center; font-size: 1.8rem; font-weight: 800;
+      margin: 0 0 12px;
+    }
+    .for-who > .subtitle {
+      text-align: center; color: var(--text-muted); font-size: 1rem;
+      margin: 0 auto 45px; display: block;
+    }
+    .for-who-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px;
+    }
+    .who-card {
+      background: var(--bg-color); border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 36px;
+    }
+    .who-card h3 {
+      font-size: 1.2rem; font-weight: 700; margin: 0 0 16px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .who-card ul {
+      list-style: none; padding: 0; margin: 0 0 20px;
+    }
+    .who-card li {
+      padding: 8px 0; font-size: 0.92rem; color: var(--text-muted);
+      display: flex; align-items: flex-start; gap: 10px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .who-card li:last-child { border-bottom: none; }
+    .who-check { color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+    /* ===== MEMBERSHIP ===== */
+    .membership {
+      padding: 70px 20px; text-align: center;
+    }
+    .membership h2 {
+      font-size: 1.8rem; font-weight: 800; margin: 0 0 12px;
+    }
+    .membership .subtitle {
+      color: var(--text-muted); font-size: 1rem; margin: 0 0 40px;
+    }
+    .pricing-card {
+      background: #fff; border: 2px solid var(--primary);
+      border-radius: 20px; padding: 44px; max-width: 460px; margin: 0 auto;
+      position: relative; overflow: hidden;
+    }
+    .pricing-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--btn-color));
+    }
+    .pricing-label {
+      font-size: 0.8rem; font-weight: 700; text-transform: uppercase;
+      color: var(--primary); letter-spacing: 0.5px; margin-bottom: 6px;
+    }
+    .pricing-card h3 { font-size: 1.3rem; font-weight: 700; margin: 0 0 20px; }
+    .price { font-size: 3.2rem; font-weight: 800; }
+    .price span { font-size: 1rem; font-weight: 500; color: var(--text-muted); }
+    .pricing-features {
+      list-style: none; padding: 0; margin: 28px 0; text-align: left;
+    }
+    .pricing-features li {
+      padding: 10px 0; font-size: 0.92rem; color: var(--text-muted);
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+    .pricing-features li:last-child { border-bottom: none; }
+    .p-check {
+      width: 22px; height: 22px; border-radius: 50%; background: #ecfdf5;
+      color: #059669; display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; flex-shrink: 0;
+    }
+    .pricing-card .btn { width: 100%; justify-content: center; margin-top: 4px; }
+
+    /* ===== FAQ ===== */
+    .faq {
+      padding: 70px 20px; background: #fff;
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+    }
+    .faq-inner { max-width: 750px; margin: 0 auto; }
+    .faq h2 {
+      text-align: center; font-size: 1.8rem; font-weight: 800;
+      margin: 0 0 40px;
+    }
+    .faq-item {
+      border-bottom: 1px solid var(--border-color); padding: 20px 0;
+    }
+    .faq-item:last-child { border-bottom: none; }
+    .faq-q {
+      font-weight: 700; font-size: 1rem; cursor: pointer;
+      display: flex; justify-content: space-between; align-items: center;
+      gap: 12px;
+    }
+    .faq-q::after {
+      content: '+'; font-size: 1.3rem; font-weight: 400; color: var(--text-muted);
+      transition: transform 0.2s;
+    }
+    .faq-item.open .faq-q::after { content: '\2212'; }
+    .faq-a {
+      max-height: 0; overflow: hidden; transition: max-height 0.3s ease, padding 0.3s;
+      color: var(--text-muted); font-size: 0.95rem; line-height: 1.7;
+    }
+    .faq-item.open .faq-a { max-height: 300px; padding-top: 12px; }
+
+    /* ===== NEWSLETTER ===== */
+    .newsletter {
+      padding: 70px 20px; text-align: center;
+    }
+    .newsletter h2 { font-size: 1.8rem; font-weight: 800; margin: 0 0 12px; }
+    .newsletter p { color: var(--text-muted); font-size: 1rem; margin: 0 0 28px; }
+    .nl-form {
+      max-width: 460px; margin: 0 auto; display: flex; gap: 10px;
+    }
+    .nl-form input {
+      flex: 1; padding: 14px 16px; border: 1px solid var(--border-color);
+      border-radius: 12px; font-size: 1rem; font-family: inherit;
+    }
+    .nl-form input:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 3px rgba(92,138,185,0.15); }
+    .nl-msg { margin-top: 12px; font-size: 0.9rem; }
+
+    /* ===== FOOTER ===== */
     .footer {
-      background: #0f172a; color: #94a3b8; padding: 40px 20px; text-align: center;
-      font-size: 0.85rem;
+      background: #0f172a; color: #94a3b8; padding: 40px 20px;
+      text-align: center; font-size: 0.85rem;
     }
     .footer a { color: #cbd5e1; text-decoration: none; }
     .footer a:hover { color: #fff; }
 
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .hero-container { flex-direction: column; gap: 30px; }
-      .hero-content h1 { font-size: 2.2rem; }
-      .hero { padding: 60px 20px; }
-      .hero-image { height: 250px; width: 100%; }
-      .features-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+      .hero { min-height: 420px; padding: 60px 20px; }
+      .hero-sub { font-size: 1rem; }
+      .changes-grid { grid-template-columns: 1fr; }
+      .principles-grid { grid-template-columns: 1fr; }
+      .for-who-grid { grid-template-columns: 1fr; }
+      .nl-form { flex-direction: column; }
+      .app-areas { gap: 10px; }
     }
   </style>
 </head>
 <body>
 
+  <!-- ===== HERO ===== -->
   <section class="hero">
-    <div class="hero-container">
-      <div class="hero-content">
-        <span class="hero-badge">Welcome to UPWC</span>
-        <h1>Understanding the Three Principles Worldwide Community</h1>
-        <p>A global community dedicated to sharing the understanding of Mind, Consciousness, and Thought. Discover events, connect with practitioners, and explore a curated library of resources.</p>
-        <div class="hero-actions">
-          <a href="/map" class="hero-btn hero-btn-primary">Explore the Event Map</a>
-          <a href="/three-principles/" class="hero-btn hero-btn-secondary">About the Three Principles</a>
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <span class="hero-badge">A Grassroots Community</span>
+      <h1>Grounded In The<br>Three Principles Of<br><span>Mind, Consciousness &amp; Thought</span></h1>
+      <p class="hero-sub">A space to explore, share, and grow together. We would love you to become part of us.</p>
+      <div class="hero-actions">
+        <a href="/three-principles/" class="btn btn-white">Explore the Three Principles</a>
+        <a href="/join" class="btn btn-primary">Join the Community</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== MISSION ===== -->
+  <section class="mission">
+    <div class="mission-inner">
+      <h2>When We Understand How These Three Principles Work Together, Lasting Well-Being Emerges Naturally.</h2>
+      <p>We are guided by the realization that at the core of all human experience — regardless of culture, background, or circumstance — we are all the same. At a deeper level, before the formation of thought, we are all the same.</p>
+    </div>
+  </section>
+
+  <!-- ===== CHANGES LIVES ===== -->
+  <section class="changes">
+    <h2>How This Understanding Changes Lives</h2>
+    <div class="changes-grid">
+      <div class="change-item">
+        <div class="change-icon">&#x2728;</div>
+        <p><strong>Less stress, anxiety, and overthinking</strong> — a quieter mind emerges naturally</p>
+      </div>
+      <div class="change-item">
+        <div class="change-icon">&#x1f4a1;</div>
+        <p><strong>Greater clarity and resilience</strong> — navigating life's challenges with fresh perspective</p>
+      </div>
+      <div class="change-item">
+        <div class="change-icon">&#x1f91d;</div>
+        <p><strong>Stronger, more fulfilling relationships</strong> — deeper understanding of yourself and others</p>
+      </div>
+      <div class="change-item">
+        <div class="change-icon">&#x1f331;</div>
+        <p><strong>Reconnection with innate well-being</strong> — realizing it was always there</p>
+      </div>
+      <div class="change-item">
+        <div class="change-icon">&#x1f9ed;</div>
+        <p><strong>Sustainable behavior and lifestyle changes</strong> — from insight, not willpower</p>
+      </div>
+      <div class="change-item">
+        <div class="change-icon">&#x1f30a;</div>
+        <p><strong>A natural sense of peace</strong> — even in uncertain or difficult times</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== THREE PRINCIPLES ===== -->
+  <section class="principles">
+    <div class="principles-inner">
+      <h2>The Three Principles</h2>
+      <p class="subtitle">Three universal constants behind all human experience, first articulated by Sydney Banks.</p>
+      <div class="principles-grid">
+        <div class="principle-card">
+          <div class="principle-emoji">&#x2728;</div>
+          <h3>Mind</h3>
+          <p>The universal intelligence behind all of life — the formless energy and source from which all things are created.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-emoji">&#x1f4a0;</div>
+          <h3>Consciousness</h3>
+          <p>The gift of awareness that makes our thinking real to us — transforming formless thought into a felt, lived experience.</p>
+        </div>
+        <div class="principle-card">
+          <div class="principle-emoji">&#x1f4ad;</div>
+          <h3>Thought</h3>
+          <p>The creative power that generates our moment-to-moment experience of reality — from the inside out.</p>
         </div>
       </div>
-      <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Community gathering">
+      <div class="principles-link">
+        <a href="/three-principles/" class="btn btn-outline btn-sm">Learn more about the Three Principles &rarr;</a>
       </div>
     </div>
   </section>
 
-  <section class="features">
-    <h2>What You'll Find Here</h2>
-    <p class="subtitle">Everything you need to explore, connect, and grow in one place.</p>
-    <div class="features-grid">
-      <a href="/three-principles/" class="feature-card">
-        <div class="feature-icon" style="background: #eef2ff; color: #4f46e5;">&#x1f4a1;</div>
-        <h3>The Three Principles</h3>
-        <p>Learn about Mind, Consciousness, and Thought — the three universal principles behind all human experience.</p>
-        <span class="feature-link">Learn more &rarr;</span>
-      </a>
-      <a href="/map" class="feature-card">
-        <div class="feature-icon" style="background: #ecfdf5; color: #059669;">&#x1f30d;</div>
-        <h3>Event Map</h3>
-        <p>Discover events happening around the world. Filter by location, date, and category to find what's near you.</p>
-        <span class="feature-link">Explore events &rarr;</span>
-      </a>
-      <a href="/resources/" class="feature-card">
-        <div class="feature-icon" style="background: #fef3c7; color: #d97706;">&#x1f4da;</div>
-        <h3>Resources Library</h3>
-        <p>Browse our curated collection of articles, videos, books, and practitioner materials.</p>
-        <span class="feature-link">Browse resources &rarr;</span>
-      </a>
+  <!-- ===== APPLICATION ===== -->
+  <section class="application">
+    <div class="application-inner">
+      <h2>Where This Understanding Is Applied</h2>
+      <p class="subtitle">The Three Principles have been brought into many fields with transformative results.</p>
+      <div class="app-areas">
+        <span class="app-tag">&#x1f3e5; Hospitals</span>
+        <span class="app-tag">&#x1f3db;&#xfe0f; Correctional Facilities</span>
+        <span class="app-tag">&#x1f91d; Social Services</span>
+        <span class="app-tag">&#x1f4bc; Business &amp; Leadership</span>
+        <span class="app-tag">&#x1f393; Education</span>
+        <span class="app-tag">&#x1f49a; Couples Therapy</span>
+        <span class="app-tag">&#x1f3e0; Addiction Recovery</span>
+      </div>
+      <div class="app-highlight">And Most Importantly — Your Everyday Life</div>
     </div>
   </section>
 
-  <section class="cta">
-    <h2>Share Your Event with the Community</h2>
-    <p>Are you hosting an event? Post it to the global event map and reach practitioners worldwide.</p>
-    <a href="/dashboard?action=new-event" class="hero-btn hero-btn-primary">Post a New Event</a>
+  <!-- ===== FOR WHO ===== -->
+  <section class="for-who">
+    <div class="for-who-inner">
+      <h2>Whether You're Exploring or Practicing</h2>
+      <span class="subtitle">Everyone is welcome here — wherever you are in your journey.</span>
+      <div class="for-who-grid">
+        <div class="who-card">
+          <h3>&#x1f30d; Interested Public</h3>
+          <ul>
+            <li><span class="who-check">&#x2713;</span> Explore events on the global Event Map</li>
+            <li><span class="who-check">&#x2713;</span> Browse the curated Resources Library</li>
+            <li><span class="who-check">&#x2713;</span> Learn about the Three Principles at your own pace</li>
+            <li><span class="who-check">&#x2713;</span> Subscribe to the newsletter for updates</li>
+          </ul>
+          <a href="/map" class="btn btn-outline btn-sm">Explore the Event Map &rarr;</a>
+        </div>
+        <div class="who-card">
+          <h3>&#x1f9d1;&#x200d;&#x1f3eb; Three Principles Practitioners</h3>
+          <ul>
+            <li><span class="who-check">&#x2713;</span> Publish events to reach a global audience</li>
+            <li><span class="who-check">&#x2713;</span> Share resources with the community</li>
+            <li><span class="who-check">&#x2713;</span> Connect with fellow practitioners worldwide</li>
+            <li><span class="who-check">&#x2713;</span> Join discussions in the community feed</li>
+          </ul>
+          <a href="/join" class="btn btn-primary btn-sm">Join the Community &rarr;</a>
+        </div>
+      </div>
+    </div>
   </section>
 
-  <section class="cta" style="border-top: 1px solid var(--border-color);">
+  <!-- ===== MEMBERSHIP ===== -->
+  <section class="membership">
+    <h2>Community Membership</h2>
+    <p class="subtitle">One simple plan. Everything you need to connect, share, and grow.</p>
+    <div class="pricing-card">
+      <div class="pricing-label">Annual Membership</div>
+      <h3>UPWC Community</h3>
+      <div class="price">$40<span> / year</span></div>
+      <ul class="pricing-features">
+        <li><span class="p-check">&#x2713;</span> Publish events to the global Event Map</li>
+        <li><span class="p-check">&#x2713;</span> Share resources with the community</li>
+        <li><span class="p-check">&#x2713;</span> Community discussion feed</li>
+        <li><span class="p-check">&#x2713;</span> Member directory — find and connect with practitioners</li>
+        <li><span class="p-check">&#x2713;</span> Full dashboard access</li>
+      </ul>
+      <a href="/join" class="btn btn-primary">Join Now &mdash; $40/year</a>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="faq">
+    <div class="faq-inner">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">What are the Three Principles?</div>
+        <div class="faq-a">The Three Principles — Mind, Consciousness, and Thought — were first articulated by Sydney Banks. They point to the fundamental nature of how all human experience is created from the inside out. This is not a technique or method, but an understanding that naturally brings clarity and peace of mind.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How is this different from other coaching or self-help approaches?</div>
+        <div class="faq-a">Rather than offering techniques or strategies to manage your thinking, this understanding points you toward the source of your experience. When you see how thought creates your reality moment to moment, change happens naturally — without effort or practice.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Do I need to be a practitioner to join?</div>
+        <div class="faq-a">No. The community welcomes everyone — whether you're just curious about the Three Principles, exploring for personal growth, or a seasoned practitioner. The membership gives you access to publish events and resources, join discussions, and connect with others.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Can I browse the site without joining?</div>
+        <div class="faq-a">Yes. The Event Map, Resources Library, and Three Principles page are all freely accessible. The membership unlocks the ability to publish events, share resources, and participate in the community discussion feed and member directory.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">How does billing work?</div>
+        <div class="faq-a">Membership is $40 per year, billed annually through Stripe. You can cancel anytime. Your access remains active until the end of your billing period.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NEWSLETTER ===== -->
+  <section class="newsletter">
     <h2>Stay Connected</h2>
     <p>Subscribe to our newsletter for updates on events, new resources, and community news.</p>
-    <form id="newsletter-form" onsubmit="handleNewsletter(event)" style="max-width: 440px; margin: 0 auto; display: flex; gap: 10px;">
-      <input type="email" id="newsletter-email" placeholder="your@email.com" required
-        style="flex:1; padding:14px 16px; border:1px solid var(--border-color); border-radius:12px; font-size:1rem; font-family:inherit;">
-      <button type="submit" class="hero-btn hero-btn-primary" style="white-space:nowrap; padding:14px 28px;">Subscribe</button>
+    <form id="newsletter-form" class="nl-form" onsubmit="handleNewsletter(event)">
+      <input type="email" id="newsletter-email" placeholder="your@email.com" required>
+      <button type="submit" class="btn btn-primary">Subscribe</button>
     </form>
-    <p id="newsletter-msg" style="margin-top:12px; font-size:0.9rem; display:none;"></p>
+    <p id="newsletter-msg" class="nl-msg" style="display:none;"></p>
   </section>
 
+  <!-- ===== FOOTER ===== -->
   <footer class="footer">
-    <p>&copy; 2026 UPWC — Understanding the Three Principles Worldwide Community</p>
+    <p>&copy; 2026 UPWC &mdash; Understanding the Three Principles Worldwide Community</p>
   </footer>
 
   <script src="/shared-nav.js"></script>
@@ -205,6 +538,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZscmJlZW1heHhkcWljemR4b21kIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njg1NzkxNDYsImV4cCI6MjA4NDE1NTE0Nn0.TVPeCb9pudVV2_OsjSeNU6fGCVOVxSx6mYUfZPg0QB0';
     const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
+    // Newsletter
     async function handleNewsletter(e) {
       e.preventDefault();
       const email = document.getElementById('newsletter-email').value.trim();
@@ -226,6 +560,11 @@
         document.getElementById('newsletter-email').value = '';
       }
       msg.style.display = 'block';
+    }
+
+    // FAQ accordion
+    function toggleFaq(el) {
+      el.parentElement.classList.toggle('open');
     }
   </script>
 </body>
