@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Three Principles | UPWC</title>
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #5c8ab9;
+      --primary-hover: #4a7aa9;
+      --btn-color: #9cbce2;
+      --btn-hover: #8baad1;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+    }
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      color: var(--text-main);
+      background-color: var(--bg-color);
+      margin: 0; padding: 0; line-height: 1.5;
+    }
+
+    /* Hero */
+    .hero {
+      background: linear-gradient(135deg, #f4f8fc 0%, #ffffff 100%);
+      border-bottom: 1px solid var(--border-color);
+      padding: 80px 20px; text-align: center;
+    }
+    .hero-badge {
+      display: inline-block; padding: 6px 16px; background-color: #e2f0fc;
+      color: var(--primary); border-radius: 999px; font-size: 0.85rem;
+      font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px;
+    }
+    .hero h1 {
+      margin: 0 0 16px 0; font-size: 3rem; font-weight: 800;
+      letter-spacing: -0.03em; line-height: 1.1;
+    }
+    .hero p {
+      color: var(--text-muted); font-size: 1.15rem; margin: 0 auto;
+      max-width: 700px; line-height: 1.7;
+    }
+
+    /* Content */
+    .content {
+      max-width: 900px; margin: 0 auto; padding: 60px 20px;
+    }
+
+    /* Principle Cards */
+    .principle {
+      background: var(--card-bg); border: 1px solid var(--border-color);
+      border-radius: 16px; padding: 40px; margin-bottom: 30px;
+      transition: all 0.3s ease;
+    }
+    .principle:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.06); }
+    .principle-header {
+      display: flex; align-items: center; gap: 16px; margin-bottom: 16px;
+    }
+    .principle-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem; flex-shrink: 0;
+    }
+    .principle h2 { margin: 0; font-size: 1.5rem; font-weight: 700; }
+    .principle p {
+      color: var(--text-muted); font-size: 1rem; line-height: 1.8; margin: 0 0 12px 0;
+    }
+    .principle p:last-child { margin-bottom: 0; }
+
+    /* Quote */
+    .quote-section {
+      background: linear-gradient(135deg, #eef4fa 0%, #f8fafc 100%);
+      border-top: 1px solid var(--border-color);
+      border-bottom: 1px solid var(--border-color);
+      padding: 60px 20px; text-align: center;
+    }
+    .quote {
+      max-width: 700px; margin: 0 auto; font-size: 1.3rem;
+      font-style: italic; color: var(--text-main); line-height: 1.7;
+    }
+    .quote-author {
+      margin-top: 16px; font-size: 0.95rem; font-weight: 600;
+      color: var(--primary); font-style: normal;
+    }
+
+    /* How They Work Together */
+    .together {
+      max-width: 900px; margin: 0 auto; padding: 60px 20px;
+    }
+    .together h2 {
+      font-size: 2rem; font-weight: 800; margin: 0 0 16px 0;
+      letter-spacing: -0.02em;
+    }
+    .together p {
+      color: var(--text-muted); font-size: 1.05rem; line-height: 1.8;
+      margin: 0 0 16px 0;
+    }
+
+    /* CTA */
+    .cta {
+      background: linear-gradient(135deg, #eef4fa 0%, #f8fafc 100%);
+      border-top: 1px solid var(--border-color);
+      padding: 60px 20px; text-align: center;
+    }
+    .cta h2 { font-size: 1.8rem; font-weight: 800; margin: 0 0 12px 0; }
+    .cta p { color: var(--text-muted); font-size: 1.05rem; margin: 0 0 30px 0; }
+    .cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .cta-btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 14px 32px; border-radius: 999px; font-weight: 700;
+      font-size: 1rem; text-decoration: none; transition: all 0.2s ease;
+    }
+    .cta-btn-primary {
+      background-color: var(--btn-color); color: #fff;
+      box-shadow: 0 2px 8px rgba(156, 188, 226, 0.4);
+    }
+    .cta-btn-primary:hover { background-color: var(--btn-hover); transform: translateY(-1px); }
+    .cta-btn-secondary {
+      background-color: #fff; color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+    .cta-btn-secondary:hover { border-color: var(--primary); color: var(--primary); transform: translateY(-1px); }
+
+    /* Footer */
+    .footer {
+      background: #0f172a; color: #94a3b8; padding: 40px 20px; text-align: center;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 2rem; }
+      .hero { padding: 50px 20px; }
+      .principle { padding: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <span class="hero-badge">Foundation</span>
+    <h1>The Three Principles</h1>
+    <p>An understanding of the fundamental nature of human experience, first articulated by Sydney Banks — pointing to the source of all thought, feeling, and perception.</p>
+  </section>
+
+  <section class="content">
+    <div class="principle">
+      <div class="principle-header">
+        <div class="principle-icon" style="background: #eef2ff; color: #4f46e5;">&#x2728;</div>
+        <h2>Mind</h2>
+      </div>
+      <p>Mind is the universal intelligence behind all of life — the energy and source from which all things are created. It is the formless essence that powers our capacity to be alive, to think, and to be aware.</p>
+      <p>Mind is not the brain, nor personal thinking. It is the intelligent energy that underlies all existence, the source that allows every human being to have the experience of being alive.</p>
+    </div>
+
+    <div class="principle">
+      <div class="principle-header">
+        <div class="principle-icon" style="background: #ecfdf5; color: #059669;">&#x1f4a0;</div>
+        <h2>Consciousness</h2>
+      </div>
+      <p>Consciousness is the gift of awareness. It gives us the ability to experience our thinking — to see, hear, feel, taste, and smell. Without Consciousness, we would have no experience of life.</p>
+      <p>Consciousness makes our thoughts real to us. It is what transforms the formless energy of Thought into a felt, lived experience — making it possible for us to perceive and navigate the world.</p>
+    </div>
+
+    <div class="principle">
+      <div class="principle-header">
+        <div class="principle-icon" style="background: #fef3c7; color: #d97706;">&#x1f4ad;</div>
+        <h2>Thought</h2>
+      </div>
+      <p>Thought is the creative power that allows us to generate our moment-to-moment experience of reality. Every feeling we have comes from the thoughts we are having in the moment — not from external circumstances.</p>
+      <p>Thought is not just cognitive or intellectual. It includes all forms of mental activity — conscious and unconscious — that create our personal experience of the world from the inside out.</p>
+    </div>
+  </section>
+
+  <section class="quote-section">
+    <blockquote class="quote">
+      "If the only thing people learned was not to be afraid of their experience, that alone would change the world."
+      <div class="quote-author">— Sydney Banks</div>
+    </blockquote>
+  </section>
+
+  <section class="together">
+    <h2>How They Work Together</h2>
+    <p>The Three Principles are not separate forces — they work as one unified system to create all of human experience. Mind provides the energy, Thought creates the form, and Consciousness brings it to life as our felt reality.</p>
+    <p>Understanding these principles doesn't give you a technique or a set of rules to follow. Instead, it offers an insight into how your experience is being created moment to moment. When this understanding deepens, people naturally find greater clarity, resilience, and peace of mind — not by changing their circumstances, but by seeing how their experience of those circumstances is being generated from within.</p>
+    <p>This understanding has been applied across many fields — mental health, education, business, community programs, and addiction recovery — helping people reconnect with their innate well-being.</p>
+  </section>
+
+  <section class="cta">
+    <h2>Continue Exploring</h2>
+    <p>Discover events, connect with practitioners, and dive deeper into the understanding.</p>
+    <div class="cta-actions">
+      <a href="/resources/" class="cta-btn cta-btn-primary">Browse Resources</a>
+      <a href="/map" class="cta-btn cta-btn-secondary">Find Events Near You</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p>&copy; 2026 UPWC — Understanding the Three Principles Worldwide Community</p>
+  </footer>
+
+  <script src="/shared-nav.js"></script>
+</body>
+</html>

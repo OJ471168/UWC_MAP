@@ -56,27 +56,21 @@ const Navigation: React.FC<NavigationProps> = ({
                 {/* Left Actions */}
                 <div className="flex items-center gap-3">
                     <a
-                        href="/?action=new-event"
+                        href="/dashboard?action=new-event"
                         className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg font-bold text-sm hover:bg-indigo-700 transition-all shadow-sm hover:shadow-md"
                     >
                         <PlusCircle size={16} />
                         Post a New Event
                     </a>
                     <a
-                        href="/"
+                        href="/dashboard"
                         className="flex items-center gap-2 px-4 py-2 bg-slate-800 text-white rounded-lg font-bold text-sm hover:bg-slate-900 transition-all shadow-sm hover:shadow-md"
                     >
                         <Settings size={16} />
                         Manage My Events
                     </a>
-                    <a
-                        href="/resources/"
-                        className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-600 font-bold text-sm hover:bg-indigo-50 hover:text-indigo-600 hover:border-indigo-200 transition-all"
-                    >
-                        Resources
-                    </a>
-                    
-                    <button 
+
+                    <button
                         onClick={onToggleHelp}
                         className="flex items-center gap-2 px-3 py-2 bg-white border border-gray-200 rounded-lg text-gray-600 font-bold text-sm hover:bg-blue-50 hover:text-blue-600 hover:border-blue-200 transition-all"
                     >
